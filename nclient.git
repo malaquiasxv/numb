@@ -21,7 +21,7 @@ process=( dnf5-makecache.timer firewalld tor avahi-daemon systemd-resolved Netwo
 function ipblocked(){
    while read -r cidr; do
        iptables -A OUTPUT -d "$cidr" -j DROP >/dev/null 2>&1
-   done < ipblocked
+   done < /usr/bin/ipblocked
 }
 
 function process_killer(){
@@ -127,7 +127,7 @@ function dependencies(){
 if command -v nc >/dev/null 2>&1 && command -v git >/dev/null 2>&1 && command -v curl >/dev/null 2>&1 && command -v tor --verify-config >/dev/null 2>&1 && command -v iptables >/dev/null 2>&1 && command -v nft >/dev/null 2>&1 && command -v NetworkManager >/dev/null 2>&1 && command -v obfs4proxy >/dev/null 2>&1; then
    echo -e "\n${GREEN}[${WHITE}+${GREEN}]${WHITE} Packages already installed.${NC}"
 else
-   pkgs=( netcat git curl tor iptables nftables iproute2 obfs4proxy networkmanager e2fsprogs coreutils util-linux )
+   pkgs=( netcat git curl tor iptables nftables iproute2 obfs4proxy networkmanager e2fsprogs coreutils util-linux bash)
       if [[ $(command -v apt) ]]; then
             echo -e "\n${BLUE}[${YELLOW}!${BLUE}]${WHITE} Detected pkg manager: ${GREEN}apt${NC}"
             sudo apt install "${pkgs[@]}" -y
