@@ -351,7 +351,7 @@ if ss -tulpn | grep -iE "6969|9150|9151" >/dev/null 2>&1 || pgrep tor >/dev/null
    sysctl --system >/dev/null 2>&1
    sudo nft flush ruleset >/dev/null 2>&1
 
-   echo -e "\n${RED}[${GREEN}STATUS${RED}]${GREEN} The OnionBox has been stopped cleanly without a kernel panic.${NC}"
+   echo -e "\n${RED}[${GREEN}STATUS${RED}]${GREEN} The OnionBox has been sttopped.${NC}"
 
 else
    echo -e "\n${RED}[${GREEN}ERR${RED}]${GREEN} Seems like The OnionBox is not even running${NC}"
