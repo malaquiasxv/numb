@@ -217,25 +217,24 @@ sudo nft add chain inet onionbox_filter filter_output "{ type filter hook output
 
 sudo nft add rule inet onionbox_filter filter_input iifname "lo" accept
 sudo nft add rule inet onionbox_filter filter_input ct state established,related accept
-sudo nft add rule inet onionbox_filter filter_input ip daddr 127.0.0.1 udp dport 5353 accept
-sudo nft add rule inet onionbox_filter filter_input ip daddr 127.0.0.1 tcp dport 5353 accept
-sudo nft add rule inet onionbox_filter filter_input ip daddr 127.0.0.1 tcp dport 6969 accept
-sudo nft add rule inet onionbox_filter filter_input iifname "lo" icmp type echo-request ct state established,related accept
+sudo nft add rule inet onionbox_filter filter_input tcp dport { 5353, 6969 } accept
+sudo nft add rule inet onionbox_filter filter_input udp dport 5353 accept
+sudo nft add rule inet onionbox_filter filter_input iifname "lo" icmp type echo-request accept
 sudo nft add rule inet onionbox_filter filter_input icmp type echo-request drop
 sudo nft add rule inet onionbox_filter filter_input icmpv6 type echo-request drop
 
 sudo nft add rule inet onionbox_filter filter_output oifname "lo" accept
 sudo nft add rule inet onionbox_filter filter_output ct state { new, established, related } accept
 sudo nft add rule inet onionbox_filter filter_output meta skuid "$TOR_USER" accept
-sudo nft add rule inet onionbox_filter filter_output ip daddr 127.0.0.1 udp dport 5353 accept
-sudo nft add rule inet onionbox_filter filter_output ip daddr 127.0.0.1 tcp dport 5353 accept
-sudo nft add rule inet onionbox_filter filter_output ip daddr 127.0.0.1 tcp dport 6969 accept
-sudo nft add rule inet onionbox_filter filter_output oifname "lo" icmp type echo-request ct state { new, established, related } accept
+sudo nft add rule inet onionbox_filter filter_output tcp dport { 5353, 6969 } accept
+sudo nft add rule inet onionbox_filter filter_output udp dport 5353 accept
+sudo nft add rule inet onionbox_filter filter_output oifname "lo" icmp type echo-request accept
 sudo nft add rule inet onionbox_filter filter_output icmp type echo-request drop
 sudo nft add rule inet onionbox_filter filter_output reject
 
+
 sudo nft add table ip onionbox_nat
-sudo nft add chain ip onionbox_nat tor_nat_out "{ type nat hook output priority 100 ; policy accept ; }"
+sudo nft add chain ip onionbox_nat tor_nat_out "{ type nat hook output priority 0 ; policy accept ; }"
 
 sudo nft add rule ip onionbox_nat tor_nat_out meta skuid "$TOR_USER" return
 sudo nft add rule ip onionbox_nat tor_nat_out ip daddr { 127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 169.254.0.0/16, 224.0.0.0/4, 255.255.255.255 } return
