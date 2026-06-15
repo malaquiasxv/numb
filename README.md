@@ -21,7 +21,7 @@
 - osh >> This ultra light/simple shell just speaks some of TheOnionBox iptables version args.
 
 [*] For a modern nftables based firewall rules use:
-- onionbox-nft >> This is the modern version of the script, it uses nftables based protected firewall rules(use if you are on a SELINUX/RedHat based distro).
+- onionbox-nft >> This is the modern version of the script, it uses nftables based protected firewall rules(recommended to use if your are on a SELINUX/RedHat based distro).
 - oshnft >> An ultra simple/fast user-friendly shell that only speaks some of TheOnionBox-nft args, ex: "start", "stop", "myip", etc.
 
 [extra(aditional scripts, work using neither options)]
