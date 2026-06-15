@@ -28,7 +28,7 @@
 
 - example_bridges.txt >> It is just a list of tor bridges, you can grab them from here: https://bridges.torproject.org/options/en, or, if you prefer .onion: kgclfuro65jjlivyzfmxiq2kyv5lickrl4qd.onion/options/en
 
-- try-dot-onion >> Try to curl .onion addresses(this script comes ith some of them, for example: duckduckgo, hiddenwiki, etc) by running ./try-dot-onion, uses default's socks5 proxy address(127.0.0.1:9150), might fail if you use different one or if tor is not running.
+- try-dot-onion >> Try to curl .onion addresses(this script comes with some of them, for example: duckduckgo, hiddenwiki, etc) by running ./try-dot-onion, uses default's socks5 proxy address(127.0.0.1:9150), it might fail if you use a different address/tor is not running.
 
 - make_it_work >> ./make_it_work, just moves the shell, scripts to your /usr/bin dir(run as root).
 
@@ -37,7 +37,7 @@
 --start, --stop, --restart, --boot-enable, --boot-disable, --myip, --changeid, --set-bridges --reset-config, --link, --show-config, --fast-shell.
 
 [!] To use it right now: 
-- As root, always(if sudo/git installed in your system), run:
+- As root, always(if sudo/git installed), run:
 git clone https://github.com/0xmalaquias/TheOnionBox && cd TheOnionBox && chmod +x * && ./make_it_work
 
 # [ About Boot ] #
