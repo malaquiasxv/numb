@@ -22,7 +22,7 @@ if ! (command -v nc >/dev/null 2>&1 && command -v curl >/dev/null 2>&1 && comman
            
            pkgs=( netcat-openbsd tor curl nftables procps network-manager iproute2 coreutils util-linux bash sudo ) 
 
-           if ! apt-get update && apt install "${pkgs[@]}" -y; then
+           if ! apt install "${pkgs[@]}" -y; then
 	          echo -e "${RED}[${GREEN}err${RED}]${BLUE} Missing dependencies: ${YELLOW}(${GREEN}${pkgs[@]}${YELLOW}) !!${NC}"
 	          exit 1
 	   fi
