@@ -640,7 +640,7 @@ if tor --verify-config >/dev/null 2>&1; then
    echo -e "\n${BLUE}[${YELLOW}warn${BLUE}]${GREEN} You must restart ArchNoN to use that configuration file${NC}"
    chown -R $TOR_USER:$TOR_USER /etc/tor/torrc
    chown -R $TOR_USER:$TOR_USER /var/lib/tor
-   chattr +i /etc/tor/torrc >/dev/null 2>&!
+   chattr +i /etc/tor/torrc >/dev/null 2>&1
    exit 0
 else
    echo -e "\n${RED}[${GREEN}err${RED}]${GREEN} Configuration File is not valid, Returns 1${NC}"
