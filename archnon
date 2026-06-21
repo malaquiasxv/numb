@@ -161,7 +161,7 @@ help(){
    echo -e "\n${RED}[${YELLOW}warn${RED}]${GREEN} You are using the nftables version.${NC}"
    echo -e "\n${BLUE}[${YELLOW}warn${BLUE}]${GREEN} Supported service managers: Open-RC, Systemd, Runit only !!${NC}"
    echo -e "\n${BLUE}[${YELLOW}warn${BLUE}]${GREEN} ArchNoN is a ${YELLOW}personal project ${GREEN}developed by ${BLUE}0xmalaquias@github.com${GREEN}, if you will use it you have to know that developer wont answer in case of any issue occurs in your machine(${RED}perhaps, issues are not common, in fact, they are incredible weird${GREEN}), anyways, here are the ${BLUE}script actions: ${NC}"
-   echo -e "\n${P}[${NC}0${P}]${NC} ${BLUE}start ${RED}<-----> ${GREEN}Start ArchNoN and ${YELLOW}Applies Firewall rules${NC}"
+   echo -e "\n${P}[${NC}0${P}]${NC} ${BLUE}start: ${RED}<-----> ${GREEN}Start ArchNoN and ${YELLOW}Applies Firewall rules${NC}"
    echo -e "\n${P}[${NC}1${P}]${NC} ${BLUE}stop: ${RED}<-----> ${GREEN}Stop ArchNoN and ${RED}Flushes Firewall rules${NC}"
    echo -e "\n${P}[${NC}2${P}]${NC} ${BLUE}restart: ${RED}<-----> ${GREEN}Restart ArchNoN and Firewall rules${NC}"
    echo -e "\n${P}[${NC}4${P}]${NC} ${BLUE}boot-enable: ${RED}<-----> ${GREEN}Enables ArchNoN to ${YELLOW}start on boot ${NC}"
