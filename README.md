@@ -1,4 +1,4 @@
-# <[ ArchNoN Anonimation Tool v3.0.4 ]> #
+# <[ ArchNoN Anonimation Tool v3.0.5 ]> #
 - [notice] ArchNoN is a Bash based Anonimation tool that makes your linux machine's internet traffic go trought tor's network, applies secure firewall rules(nftables) and disables IPv6 at the kernel level !!.
 - [warn] ArchNoN is a personal project developed by newmasterone27@gmail.com, if you will use it you have to know that developer wont answer in case of any issue occurs in your machine(perhaps, issues are not common, in fact, they are incredible weird).
 
