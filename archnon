@@ -433,7 +433,7 @@ if ! ss -tulpn | grep -iE "6969|9150|9151" >/dev/null 2>&1 || ! pgrep -a tor | g
     break
 else
     echo -e "\n${P}[${YELLOW}warn${P}]${GREEN} ArchNoN is already running${NC}"
-    echo -e "\n${BLUE}[${YELLOW}warn${BLUE}]${GREEN} Note: To resolv ${P}.onion ${GREEN}addresses you must use: '${YELLOW}archnon link <link>'${NC}"
+    echo -e "\n${BLUE}[${YELLOW}warn${BLUE}]${GREEN} Note: To resolv ${P}.onion ${GREEN}addresses you must use: '${YELLOW}archnon resolv <link>'${NC}"
     exit 0
     shift
     break
