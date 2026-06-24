@@ -117,7 +117,7 @@ if [ ! -f /etc/systemd/system/archnon.service ] && command -v systemctl >/dev/nu
 Description=ArchNoN Custom Service Here !!
 [Service]
 Type=forking
-ExecStart=/usr/bin/archnon start
+ExecStart=archnon start
 RemainAfterExit=yes
 User=root
 [Install]
