@@ -616,7 +616,7 @@ touch /etc/tor/torrc >/dev/null 2>&1
 if [[ -z "$file" || ! -f "$file" || -z "$kind" || ! "$bin" || -z "$bin" ]]; then
     echo -e "\n${ORANGE}[${NC}*${ORANGE}]${YELLOW} Usage: ${P}sudo archnon bridges ${BLUE}<${NC}file${BLUE}> ${BLUE}<${NC}kind${BLUE}> ${BLUE}<${NC}bin${BLUE}>${NC}"
     echo -e "\n${ORANGE}[${NC}*${ORANGE}]${P} EXAMPLE: ${BLUE}sudo archnon bridges ${P}bridges.txt ${GREEN}obfs4 ${RED}/usr/bin/obfs4proxy${NC}"
-    echo -e "\n${BLUE}[${NC}*${BLUE}]${GREEN} File ${RED}should ONLY contain the bridges in this format: ${NC}<${YELLOW}'bridge'${NC}> ${YELLOW}<${NC}type${YELLOW}> [${NC}IP${YELLOW}]${GREEN}:${YELLOW}[${NC}PORT${YELLOW}] [${NC}fingerprint${YELLOW}] [${NC}Key=value${YELLOW}]${NC}"
+    echo -e "\n${BLUE}[${NC}*${BLUE}]${NC} File ${RED}should ONLY contain the bridges in this format: ${NC}<${YELLOW}'bridge'${NC}> ${YELLOW}<${NC}type${YELLOW}> [${NC}IP${YELLOW}]${GREEN}:${YELLOW}[${NC}PORT${YELLOW}] [${NC}fingerprint${YELLOW}] [${NC}Key=value${YELLOW}]${NC}"
     exit 1
 fi
 
@@ -715,8 +715,8 @@ fi
 
 if pgrep -a tor | grep -IE "tor" >/dev/null 2>&1 || ss -tulpn | grep -iE "6969|9150|9151" >/dev/null 2>&1; then
 
-echo -e "\n${P}[${NC}*${P}]${GREEN} Resolving ${YELLOW}'$link'${GREEN}...${NC}"
-curl --socks5-hostname 127.0.0.1:9150 "$link" && echo -e "\n${ORANGE}[${NC}+${ORANGE}]${P} "$link", ${GREEN}resolved${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} Could not resolv: ${P}$link${NC}"
+echo -e "\n${BLUE}[${NC}*${BLUE}]${NC} Resolving ${ORANGE}'$link'${NC}..."
+curl --socks5-hostname 127.0.0.1:9150 "$link" && echo -e "\n${ORANGE}[${NC}+${ORANGE}]${P} "$link", ${GREEN}resolved${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} Unknown:${RED} Could not resolv: ${BLUE}$link${NC}"
 exit 0
 
 else
@@ -824,13 +824,20 @@ if [ -f /etc/archnon_rules.nft ]; then
     echo -e "\n${BLUE}[${NC}*${BLUE}]${NC} Showing ${GREEN}Applied ${BLUE}Firewall rules${ORANGE}(${NC}skel file${ORANGE})${NC}"
     sleep 4
     cat /etc/archnon_rules.nft
-    echo -e "\n${ORANGE}[${NC}*${ORANGE}]${GREEN} Keep Looking, take your time..${NC}"
+    echo -e "\n${BLUE}[${NC}+${BLUE}]${NC} Keep Looking, take your time..${NC}"
     sleep 12
     echo -e "\n${BLUE}[${NC}*${BLUE}]${P} Showing Current firewall Rules${NC}"
     sleep 4
-    nft list ruleset && echo -e "\n${ORANGE}[${NC}*${ORANGE}]${NC} Done${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}Could not show current firewall rules${NC}"
+    nft list ruleset && echo -e "\n${ORANGE}[${NC}+${ORANGE}]${NC} Done${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} Unknown: ${RED}Could not show current firewall rules${NC}"
 fi
 
+shift
+break
+;;
+help)
+mode=12
+
+help
 shift
 break
 ;;
@@ -838,24 +845,12 @@ break
 --*|-*|*)
 mode=13
 
-echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: unknown action ${YELLOW}'$1'${NC}, see ${P}'archnon help'${NC}"
+echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: Unknown action ${YELLOW}'$1'${NC}, see ${P}'archnon help'${NC}"
 
 exit 1
 
 shift
 break
-;;
-
---help|-help|help|-h)
-
-mode=14
-
-help
-
-shift
-
-break
-
 ;;
 
 esac
