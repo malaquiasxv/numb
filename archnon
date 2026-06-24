@@ -156,7 +156,7 @@ fi
 
 if ! $(tor --verify-config >/dev/null 2>&1); then
 
-echo -e "\n${RED}[${NC}*${RED}] ${NC}Bad usage: ${RED}Invalid Torrc${NC}, Try ${ORANGE}'archnon config-reset'${NC}"
+echo -e "\n${RED}[${NC}-${RED}] ${NC}Bad usage: ${RED}Invalid Torrc${NC}, Try ${ORANGE}'archnon config-reset'${NC}"
 
 fi
 
@@ -182,7 +182,7 @@ myip(){
 if ss -tulpn | grep -iE "6969|9150|9151" >/dev/null 2>&1 || pgrep -a tor | grep -IE "tor" >/dev/null 2>&1; then
 
    echo -e "\n${ORANGE}[${NC}*${ORANGE}]${P} From Tor's Network${NC}:${ORANGE}" 
-   curl --socks5-hostname 127.0.0.1:9150 https://check.torproject.org/api/ip
+   curl --socks5-hostname 127.0.0.1:9150 https://check.torproject.org/api/ip echo -e "${NC}"
 
 else
 
@@ -302,7 +302,7 @@ nft -f /etc/archnon_rules.nft
    if pgrep -a tor | grep -IE "tor" >/dev/null 2>&1 || ss -tulpn | grep -iE "6969|9150|9151" >/dev/null 2>&1; then
    echo -e "\n${ORANGE}[${NC}+${ORANGE}]${NC} ArchNoN is running ${BLUE}(${GREEN}done${BLUE})${NC}"
    else
-        echo -e "${RED}[${NC}-${RED}]${NC} Unknown: ${REDCould not start ArchNoN${NC}"
+        echo -e "${RED}[${NC}-${RED}]${NC} Unknown: ${RED}Could not start ArchNoN${NC}"
          exit 1
    fi
 }
@@ -402,7 +402,7 @@ if ! ss -tulpn | grep -iE "6969|9150|9151" >/dev/null 2>&1 || ! pgrep -a tor | g
    echo -e "\n${RED}[${NC}+${RED}]${NC} ArchNoN has been ${RED}stopped.${NC}"
    exit 0
 else
-   echo -e "${RED}[${NC}-${RED}]${NC} Unknown: ${REDCould not stop ArchNoN${NC}"
+   echo -e "${RED}[${NC}-${RED}]${NC} Unknown: ${RED}Could not stop ArchNoN${NC}"
    exit 1
 fi
 
