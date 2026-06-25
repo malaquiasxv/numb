@@ -20,7 +20,7 @@ NC="\e[0m"
 
 # Banner
 
-echo -e "${BLUE}< ----- [ ${LB}ArchNoN Anonimation Tool v3.0.7, by: ${ORANGE}newmasterone27@gmail.com ${LB}] ---- >${NC}"
+echo -e "${BLUE}< ---- [ ${LB}ArchNoN${YELLOW} v3.0.7${NC}, by: ${ORANGE}newmasterone27@gmail.com ${BLUE}] ---- >${NC}"
 sleep 1
 
 # Dependencies && pkg managers
@@ -167,18 +167,18 @@ fi
 
 help(){
 echo -e "\n${ORANGE}[${NC}!${ORANGE}]${NC} usage: ${P}archnon ${NC}<${BLUE}option${NC}>"
-echo -e "\n- ${LB}start: ${GREEN}start script${NC}"
-echo -e "\n- ${LB}stop: ${RED}stop script${NC}"
-echo -e "\n- ${LB}restart: ${YELLOW}restart ${NC}script"
-echo -e "\n- ${LB}enable: ${GREEN}Enable ${NC}script on boot"
-echo -e "\n- ${LB}disable: ${RED}Disable ${NC}script on boot"
-echo -e "\n- ${LB}myip: ${BLUE}Show ${BLUE}IP address${NC}"
-echo -e "\n- ${LB}changeid: ${BLUE}Change ${P}Tor IP${NC}"
-echo -e "\n- ${LB}config-show: ${BLUE}Show config ${NC}files${NC}"
-echo -e "\n- ${LB}config-load: ${GREEN}Load a ${P}custom Torrc${NC}"
-echo -e "\n- ${LB}config-firewall: ${GREEN}Show ${RED}firewall rules${NC}"
-echo -e "\n- ${LB}bridges: ${GREEN}Load a Torrc that ${P}uses bridges${NC}"
-echo -e "\n- ${LB}resolv: ${GREEN}resolve ${P}.onion ${NC}links${NC}"
+echo -e "\n${ORANGE}[${NC}1${ORANGE}] ${LB}start: ${GREEN}start script${NC}"
+echo -e "\n${ORANGE}[${NC}2${ORANGE}] ${LB}stop: ${RED}stop script${NC}"
+echo -e "\n${ORANGE}[${NC}3${ORANGE}] ${LB}restart: ${YELLOW}restart ${NC}script"
+echo -e "\n${ORANGE}[${NC}4${ORANGE}] ${LB}enable: ${GREEN}Enable ${NC}script on boot"
+echo -e "\n${ORANGE}[${NC}5${ORANGE}] ${LB}disable: ${RED}Disable ${NC}script on boot"
+echo -e "\n${ORANGE}[${NC}6${ORANGE}] ${LB}myip: ${BLUE}Show ${BLUE}IP address${NC}"
+echo -e "\n${ORANGE}[${NC}7${ORANGE}] ${LB}changeid: ${BLUE}Change ${P}Tor IP${NC}"
+echo -e "\n${ORANGE}[${NC}8${ORANGE}] ${LB}config-show: ${BLUE}Show config ${NC}files${NC}"
+echo -e "\n${ORANGE}[${NC}9${ORANGE}] ${LB}config-load: ${GREEN}Load a ${P}custom Torrc${NC}"
+echo -e "\n${ORANGE}[${NC}10${ORANGE}] ${LB}config-firewall: ${GREEN}Show ${RED}firewall rules${NC}"
+echo -e "\n${ORANGE}[${NC}11${ORANGE}] ${LB}bridges: ${GREEN}Load a Torrc that ${P}uses bridges${NC}"
+echo -e "\n${ORANGE}[${NC}12${ORANGE}] ${LB}resolv: ${GREEN}resolve ${P}.onion ${NC}links${NC}"
 }
 
 myip(){
