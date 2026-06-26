@@ -20,7 +20,7 @@ NC="\e[0m"
 
 # Banner
 
-echo -e "${BLUE}<[ ${LB}ArchNoN${YELLOW} v3.0.7${NC}, by: ${ORANGE}newmasterone27@gmail.com ${BLUE}]>${NC}"
+echo -e "\n${BLUE}<[ ${LB}ArchNoN${YELLOW} v3.0.7${NC}, by: ${ORANGE}newmasterone27@gmail.com ${BLUE}]>${NC}"
 
 # Dependencies && pkg managers
 
@@ -174,7 +174,6 @@ echo -e "\n${ORANGE}[${NC}5${ORANGE}] ${LB}disable: ${RED}Disable ${ORANGE}scrip
 echo -e "\n${ORANGE}[${NC}6${ORANGE}] ${LB}myip: ${BLUE}Show ${ORANGE}Your current IP address${NC}"
 echo -e "\n${ORANGE}[${NC}7${ORANGE}] ${LB}changeid: ${ORANGE}Change ${P}Your Tor ID/IP ${GREEN}via NetCat + ${BLUE}SOCKS direct comunication${NC}"
 echo -e "\n${ORANGE}[${NC}8${ORANGE}] ${LB}daemon: ${ORANGE}Launch Daemon PID, ${BLUE}Even if you ${RED}stop the script/kill tor,${BLUE} daemon will instantly call ${GREEN}'archnon restart'${NC}"
-
 }
 
 myip(){
@@ -464,6 +463,12 @@ break
 stop)
 
 mode=2
+
+if pgrep -a archdaemon >/dev/null 2>&1; then
+    echo -e "${RED}[${NC}-${RED}]${NC} Bad usage: ${ORANGE}Archdaemon is running${NC}, ${RED}kill it as root before trying to stop${NC}"
+    echo -e "${RED}[${NC}-${RED}]${YELLOW} Just run: ${P}sudo pkill -9 archdaemon && archnon stop${NC}"
+    exit 1
+fi
 
 stop
 
