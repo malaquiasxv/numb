@@ -20,100 +20,100 @@ NC="\e[0m"
 
 # Dependencies && pkg managers
 
-if ! (command -v nc >/dev/null 2>&1 && command -v curl >/dev/null 2>&1 && command -v tor >/dev/null 2>&1 >/dev/null 2>&1 && command -v bash >/dev/null 2>&1 && command -v pkill >/dev/null 2>&1 && command -v sudo >/dev/null 2>&1 && command -v NetworkManager >/dev/null 2>&1 && command -v nft >/dev/null 2>&1 && command -v figlet >/dev/null 2>&1); then
+if ! (command -v nc >/dev/null 2>&1 && command -v curl >/dev/null 2>&1 && command -v tor >/dev/null 2>&1 >/dev/null 2>&1 && command -v bash >/dev/null 2>&1 && command -v pkill >/dev/null 2>&1 && command -v sudo >/dev/null 2>&1 && command -v NetworkManager >/dev/null 2>&1 && command -v nft >/dev/null 2>&1 && command -v figlet >/dev/null 2>&1 && command -v chattr >/dev/null 2>&1); then
 
        if [[ $(command -v apt) ]]; then
 
-           pkgs=( netcat-openbsd tor curl nftables procps network-manager iproute2 coreutils util-linux bash sudo figlet )
+           pkgs=( netcat-openbsd tor curl nftables procps network-manager iproute2 coreutils util-linux bash sudo figlet e2fsprogs)
 
            if ! apt install "${pkgs[@]}" -y; then
-	          echo -e "${RED}[${NC}-${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
-	          exit 1
-	       fi
-	       wait
+                  echo -e "${RED}[${NC}-${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
+                  exit 1
+               fi
+               wait
 
         elif [[ $(command -v pacman) ]]; then
 
-              pkgs=( openbsd-netcat curl tor nftables procps-ng networkmanager iproute2 coreutils util-linux bash sudo figlet )
+              pkgs=( openbsd-netcat curl tor nftables procps-ng networkmanager iproute2 coreutils util-linux bash sudo figlet e2fsprogs)
 
               if ! pacman -Syy "${pkgs[@]}" --needed --noconfirm --overwrite "*"; then
-  		        echo -e "${RED}[${NC}-${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
-	            exit 1
-	         fi
-	         wait
+                        echo -e "${RED}[${NC}-${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
+                    exit 1
+                 fi
+                 wait
 
         elif [[ $(command -v dnf) ]]; then
 
-              pkgs=( epel-release nmap-ncat curl tor nftables procps-ng NetworkManager iproute coreutils util-linux bash sudo figlet )
+              pkgs=( epel-release nmap-ncat curl tor nftables procps-ng NetworkManager iproute coreutils util-linux bash sudo figlet e2fsprogs)
 
               if ! dnf -y install --allowerasing "${pkgs[@]}"; then
-	             echo -e "${RED}[${NC}-${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
-	             exit 1
-	          fi
-	          wait
+                     echo -e "${RED}[${NC}-${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
+                     exit 1
+                  fi
+                  wait
 
         elif [[ $(command -v yum) ]]; then
 
-              pkgs=( nmap-ncat curl tor nftables procps-ng NetworkManager iproute coreutils util-linux bash sudo figlet )
+              pkgs=( nmap-ncat curl tor nftables procps-ng NetworkManager iproute coreutils util-linux bash sudo figlet e2fsprogs)
 
               if ! yum -y install "${pkgs[@]}"; then
-	             echo -e "${RED}[${NC}-${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
-	             exit 1
-	          fi
-	          wait
+                     echo -e "${RED}[${NC}-${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
+                     exit 1
+                  fi
+                  wait
 
         elif [[ $(command -v zypper) ]]; then
 
-              pkgs=( nmap-ncat curl tor nftables procps-ng NetworkManager iproute coreutils util-linux bash sudo figlet )
+              pkgs=( nmap-ncat curl tor nftables procps-ng NetworkManager iproute coreutils util-linux bash sudo figlet e2fsprogs)
 
               if ! zypper install "${pkgs[@]}"; then
-	             echo -e "${RED}[${NC}-${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
-	             exit 1
-	          fi
-	          wait
+                     echo -e "${RED}[${NC}-${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
+                     exit 1
+                  fi
+                  wait
 
         elif [[ $(command -v apk) ]]; then
 
-              pkgs=( netcat-openbsd curl tor nftables procps networkmanager iproute2 coreutils util-linux bash sudo figlet )
+              pkgs=( netcat-openbsd curl tor nftables procps networkmanager iproute2 coreutils util-linux bash sudo figlet e2fsprogs)
 
               if ! apk add --no-cache "${pkgs[@]}"; then
-	             echo -e "${RED}[${NC}-${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
-	             exit 1
-	          fi
-	          wait
+                     echo -e "${RED}[${NC}-${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
+                     exit 1
+                  fi
+                  wait
 
         elif [[ $(command -v xbps-install) ]]; then
 
-              pkgs=( openbsd-netcat curl tor iproute2 coreutils util-linux bash nftables sudo procps-ng NetworkManager figlet )
+              pkgs=( openbsd-netcat curl tor iproute2 coreutils util-linux bash nftables sudo procps-ng NetworkManager figlet e2fsprogs)
 
               if ! xbps-install -Sy -f -y "*" "${pkgs[@]}"; then
-	             echo -e "${RED}[${NC}-${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
-	             exit 1
-	          fi
-	          wait
-	elif [[ $(command -v emerge) ]]; then
-	
-	      pkgs=( netcat-openbsd tor curl nftables procps network-manager iproute2 coreutils util-linux bash sudo figlet )
-	
-	      if ! emerge -v --oneshot --keep-going ${pkgs[@]}; then
-		    echo -e "${RED}[${NC}-${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
-	            exit 1
-	      fi
-	      wait
+                     echo -e "${RED}[${NC}-${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
+                     exit 1
+                  fi
+                  wait
+        elif [[ $(command -v emerge) ]]; then
+
+              pkgs=( netcat-openbsd tor curl nftables procps network-manager iproute2 coreutils util-linux bash sudo figlet e2fsprogs)
+
+              if ! emerge -v --oneshot --keep-going ${pkgs[@]}; then
+                    echo -e "${RED}[${NC}-${RED}]${NC} Missing PKGs: ${RED}(${NC}${pkgs[@]}${RED})${NC}"
+                    exit 1
+              fi
+              wait
         else
-	      pkgs=( netcat-openbsd tor curl nftables procps network-manager iproute2 coreutils util-linux bash sudo figlet )
+              pkgs=( netcat-openbsd tor curl nftables procps network-manager iproute2 coreutils util-linux bash sudo figlet e2fsprogs)
               echo -e "${RED}[${NC}-${RED}]${BLUE} Missing dependencies !!${NC}"
-	      echo -e "${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}unsuported pkg manager, please, install: ${BLUE}(${YELLOW}${pkgs[@]}${BLUE})${NC}"
+              echo -e "${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}unsuported pkg manager, please, install: ${BLUE}(${YELLOW}${pkgs[@]}${BLUE})${NC}"
               exit 1
         fi
 fi
 
 # Banner here so it checks dependencies first
 
-echo -e "${BLUE}" && figlet ArchNoN
-echo -n -e "${P}v3.0.0.9" 
-echo -e "\n"  
-echo -e "${LB}[${GREEN}*${LB}]${YELLOW} Developed by: ${ORANGE}newmasterone27@gmail.com ${NC}"
+echo -e "${BLUE}" && figlet Archnon
+echo -n -e "${P}v3.0.0.10 ${LB}-->${ORANGE} Portable Bash Anonymation Tool${NC}"
+echo -e "\n"
+echo -e "${BLUE}[${GREEN}*${BLUE}]${GREEN} Developed by: ${ORANGE}newmasterone27@gmail.com ${NC}"
 
 # Service Managers && Boot Automation
 
@@ -121,7 +121,7 @@ if [ ! -f /etc/systemd/system/archnon.service ] && command -v systemctl >/dev/nu
     touch /etc/systemd/system/archnon.service
     cat << 'EOT' > /etc/systemd/system/archnon.service
 [Unit]
-Description=ArchNoN
+Description=Archnon
 [Service]
 Type=forking
 ExecStart=archnon start
@@ -130,7 +130,6 @@ User=root
 [Install]
 WantedBy=multi-user.target
 EOT
-
 fi
 
 if [ ! -f /etc/sv/archnon/run ] && command -v runit >/dev/null 2>&1; then
@@ -147,7 +146,7 @@ if [ ! -f /etc/init.d/archnon ] && command -v rc-service >/dev/null 2>&1; then
     touch /etc/init.d/archnon
     cat << 'EOT' > /etc/init.d/archnon
 #!/sbin/openrc-run
-name=ArchNoN
+name=Archnon
 command="archnon"
 command_args="start"
 command_background=true
@@ -179,52 +178,45 @@ fi
 }
 
 help(){
-echo -e "\n${ORANGE}[${LB}!${ORANGE}]${NC} usage: ${P}archnon ${NC}<${BLUE}option${NC}>"
+echo -e "\n${BLUE}[${LB}*${BLUE}]${GREEN} usage: ${P}archnon ${NC}<${BLUE}option${NC}>"
 echo -e "\n${ORANGE}[${NC}1${ORANGE}] ${LB}start: ${GREEN}start script${NC}"
 echo -e "\n${ORANGE}[${NC}2${ORANGE}] ${LB}stop: ${RED}stop script${NC}"
 echo -e "\n${ORANGE}[${NC}3${ORANGE}] ${LB}restart: ${YELLOW}restart ${LB}script"
 echo -e "\n${ORANGE}[${NC}4${ORANGE}] ${LB}enable: ${GREEN}Enable ${ORANGE}script on boot"
 echo -e "\n${ORANGE}[${NC}5${ORANGE}] ${LB}disable: ${RED}Disable ${ORANGE}script on boot"
-echo -e "\n${ORANGE}[${NC}6${ORANGE}] ${LB}myip: ${BLUE}Show ${ORANGE}Your current IP address${NC}"
-echo -e "\n${ORANGE}[${NC}7${ORANGE}] ${LB}changeid: ${ORANGE}Change ${P}Your Tor ID/IP ${GREEN}via NetCat + ${BLUE}SOCKS direct comunication${NC}"
-echo -e "\n${ORANGE}[${NC}8${ORANGE}] ${LB}daemon: ${ORANGE}Launch Daemon PID, ${BLUE}Even if you ${RED}stop the script/kill tor,${BLUE} daemon will instantly call ${GREEN}'archnon restart'${NC}"
+echo -e "\n${ORANGE}[${NC}6${ORANGE}] ${LB}myip: ${BLUE}Show ${ORANGE}Your IP${NC}"
+echo -e "\n${ORANGE}[${NC}7${ORANGE}] ${LB}changeid: ${ORANGE}Change ${P}Your Tor IP${NC}"
+echo -e "\n${ORANGE}[${NC}8${ORANGE}] ${LB}daemon: ${ORANGE}Launch Daemon PID${NC}"
 exit 1
-}
-
-check_tor(){
-ss -tulpn | grep -IE "$TRANS|$DNS|$SOCKS|$CONTROL" >/dev/null 2>&1|| pgrep -a tor | grep -IE "tor --User $TOR_USER --RunAsDaemon 1 --DataDirectory /var/lib/tor -f /etc/tor/torrc" >/dev/null 2>&1
 }
 
 myip(){
 
-if check_tor >/dev/null 2>&1; then
+if curl --socks5-hostname 127.0.0.1:$SOCKS ifconfig.co >/dev/null 2>&1; then
 
-   echo -e "\n${ORANGE}[${NC}*${ORANGE}]${P} Reverse IP Address: ${ORANGE}" 
-   curl --socks5-hostname 127.0.0.1:$SOCKS https://check.torproject.org/api/ip && echo -e "${NC}"
+   echo -e "\n${BLUE}[${GREEN}+${BLUE}]${P} Reverse IP:${GREEN} $(curl -Ssq --socks5-hostname 127.0.0.1:$SOCKS ifconfig.co)"
 
- else
+else
 
-   echo -e "\n${RED}[${NC}*${RED}] Reverse IP Address: ${ORANGE}" 
-   curl https://check.torproject.org/api/ip && echo -e "${NC}"
+   echo -e "\n${RED}[${NC}+${RED}]${GREEN} Reverse IP${NC}: $(curl -Ssq ifconfig.co)"
+
+   exit 0
 fi
+                                                     }
 
-}
-
-start(){
-
+start(){                                             
 sudo setenforce 0 >/dev/null 2>&1
 sudo semanage permissive -a unconfined_t >/dev/null 2>&1
 
 modprobe nft_nat >/dev/null 2>&1
 modprobe nft_chain_nat >/dev/null 2>&1
-modprobe nf_nat >/dev/null 2>&1
-
+modprobe nf_nat >/dev/null 2>&1                      
 chattr -i /etc/archnon_rules.nft >/dev/null 2>&1
 
 rm /etc/archnon_rules.nft >/dev/null 2>&1
 touch /etc/archnon_rules.nft >/dev/null 2>&1
 
-sudo nft flush ruleset
+sudo nft flush ruleset >/dev/null 2>&1
 
 cat << EOT > /etc/archnon_rules.nft
 table ip6 filter {
@@ -236,16 +228,12 @@ table ip6 filter {
         chain FORWARD {
                 type filter hook forward priority filter; policy drop;
         }
-
-        chain OUTPUT {
-                type filter hook output priority filter; policy drop;
-        }
+                                                             chain OUTPUT {
+                type filter hook output priority filter; policy drop;                                             }
 }
-table ip filter {
-        chain INPUT {
+table ip filter {                                            chain INPUT {
                 type filter hook input priority filter; policy drop;
-                iifname "lo" counter packets 16 bytes 1581 accept
-                ct state related,established counter packets 84 bytes 46784 accept
+                iifname "lo" counter packets 16 bytes 1581 accept                                                         ct state related,established counter packets 84 bytes 46784 accept
                 iifname "lo" ip protocol icmp icmp type echo-request ct state related,established counter packets 0 bytes 0 accept
                 ip protocol icmp icmp type echo-request counter packets 0 bytes 0 drop
         }
@@ -273,10 +261,8 @@ table ip nat {
                 ip daddr 127.0.0.1 tcp dport 80 counter packets 0 bytes 0 redirect to :$HTTP
                 ip daddr 127.0.0.1 tcp dport 53 counter packets 0 bytes 0 redirect to :$DNS
                 ip daddr 127.0.0.1 udp dport 53 counter packets 2 bytes 114 redirect to :$DNS
-                skuid $TOR_USER counter packets 2 bytes 120 return
-                ip daddr 127.0.0.0/8 counter packets 0 bytes 0 return
-                ip daddr 192.168.0.0/16 counter packets 0 bytes 0 return
-                ip daddr 10.0.0.0/8 counter packets 0 bytes 0 return
+                skuid $TOR_USER counter packets 2 bytes 120 return                                                        ip daddr 127.0.0.0/8 counter packets 0 bytes 0 return
+                ip daddr 192.168.0.0/16 counter packets 0 bytes 0 return                                                  ip daddr 10.0.0.0/8 counter packets 0 bytes 0 return
                 ip daddr 172.16.0.0/12 counter packets 0 bytes 0 return
                 ip daddr 169.254.0.0/16 counter packets 0 bytes 0 return
                 ip daddr 255.255.255.255 counter packets 0 bytes 0 return
@@ -288,57 +274,63 @@ table ip nat {
 EOT
 
 chattr +i /etc/archnon_rules.nft >/dev/null 2>&1
-nft -f /etc/archnon_rules.nft
+                                                     nft -f /etc/archnon_rules.nft >/dev/null 2>&1 && ech -e "\n${BLUE}[${GREEN}+${BLUE}]${GREEN} Firewall Applied !${NC}" || echo -e "\n${RED}[${NC}-${RED}] ${NC}unknown: ${RED}Could not apply Firewall${NC}"
 
-   sysctl -w net.ipv6.conf.all.disable_ipv6=1 >/dev/null 2>&1
+sleep 1                                                                                                      sysctl -w net.ipv6.conf.all.disable_ipv6=1 >/dev/null 2>&1
    sysctl -w net.ipv4.icmp_echo_ignore_all=1 >/dev/null 2>&1
    sysctl -w net.ipv6.icmp.echo_ignore_all=1 >/dev/null 2>&1
    sysctl -w net.ipv6.conf.lo.disable_ipv6=1 >/dev/null 2>&1
-   sysctl --system >/dev/null 2>&1
+   sysctl --system >/dev/null 2>&1 && echo -e "\n${BLUE}[${GREEN}+${BLUE}]${GREEN} IPv6 and Pings disabled !${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}could not disable IPv6 and ignore echo requests${NC}"
+
+   sleep 1
 
    pkill -9 tor >/dev/null 2>&1
    pkill -9 NetworkManager >/dev/null 2>&1
-   
-   chattr -i /etc/resolv.conf >/dev/null 2>&1
-   
+
+   chattr -i /etc/resolv.conf >/dev/null 2>&1        
    rm /etc/resolv.conf >/dev/null 2>&1
-   touch /etc/resolv.conf >/dev/null 2>&1
-   
-   echo -e "# Generated By ArchNoN #\nnameserver 127.0.0.1" | tee /etc/resolv.conf >/dev/null 2>&1
+   touch /etc/resolv.conf >/dev/null 2>&1            
+   echo -e "# Generated By Archnon #\nnameserver 127.0.0.1" | tee /etc/resolv.conf >/dev/null 2>&1 && echo -e "\n${BLUE}[${GREEN}+${BLUE}]${GREEN} DNS Points to ${ORANGE}127${GREEN}.${ORANGE}0${GREEN}.${ORANGE}0${GREEN}.${ORANGE}1${GREEN} !${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not change DNS resolv.conf${NC}"
+
+   sleep 1
 
    chmod 644 /etc/resolv.conf >/dev/null 2>&1
    chattr +i /etc/resolv.conf >/dev/null 2>&1
 
    while ! pgrep -a NetworkManager >/dev/null 2>&1; do
-      NetworkManager >/dev/null 2>&1
-      sleep 4
-   done
+      NetworkManager >/dev/null 2>&1 && break || continue
+   done && echo -e "\n${BLUE}[${GREEN}+${BLUE}]${GREEN} Networking Fixed !${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not fix Networking..${NC}"
 
-   tor --User $TOR_USER --RunAsDaemon 1 --DataDirectory /var/lib/tor -f /etc/tor/torrc >/dev/null 2>&1
+   sleep 1                                           
+   tor --User $TOR_USER --RunAsDaemon 1 --DataDirectory /var/lib/tor -f /etc/tor/torrc >/dev/null 2>&1 && echo -e "\n${BLUE}[${GREEN}+${BLUE}]${GREEN} Tor Launched !${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not launch Tor..${NC}"
 
-   if check_tor >/dev/null 2>&1; then
-   	
-        echo -e "\n${ORANGE}[${NC}+${ORANGE}]${LB} ArchNoN ${NC}has been ${GREEN}started ${BLUE}(${GREEN}done${BLUE})${NC}"
-   
+   sleep 1
+
+   if curl --socks5-hostname 127.0.0.1:$SOCKS ifconfig.co >/dev/null 2>&1; then
+
+        sleep 1
+
+        echo -e "\n${BLUE}[${GREEN}+${BLUE}]${GREEN} Archnon has been started${NC}"
+
    else
-	    echo -e "\n"
-        echo -e "${RED}[${NC}-${RED}]${NC} unknown: ${RED}could not start ArchNoN${NC}"
-        exit 1
-   fi
+        sleep 1
+
+        echo -e "\n"                                         echo -e "${RED}[${NC}-${RED}]${NC} unknown: ${RED}could not start Archnon${NC}"
+        exit 1                                          fi
 }
-
-
-config(){
+                                                                                                          config(){
 
 if ! cat /etc/tor/torrc | grep -IE "NOT TOUCH, THIS FILE IS CUSTOM LOAD" >/dev/null 2>&1; then
 
+    echo -e "\n${BLUE}[${GREEN}*${BLUE}] ${GREEN}Using Archnon's default Torrc${NC}"
+
    chattr -i /etc/tor/torrc >/dev/null 2>&1
-   
+
    rm /etc/tor/torrc >/dev/null 2>&1
    touch /etc/tor/torrc >/dev/null 2>&1
 
    cat << EOT > /etc/tor/torrc
-# <--- Generated by ArchNoN ---> #
+# <--- Generated by Archnon ---> #
 # File locked by chattr +i, unlock: sudo chattr -i /etc/tor/torrc
 
 CookieAuthentication 0
@@ -362,80 +354,53 @@ EnforceDistinctSubnets 1
 HardwareAccel 1
 
 EOT
-
-chattr +i /etc/tor/torrc >/dev/null 2>&1
-
+                                                     chattr +i /etc/tor/torrc >/dev/null 2>&1
+sleep 1                                              
 fi
 
    if id debian-tor >/dev/null 2>&1; then
-       export TOR_USER="debian-tor"
-       echo -e "\n${BLUE}[${NC}+${BLUE}]${NC} Tor User: ${P}$TOR_USER${NC}"
+       export TOR_USER="debian-tor"                         echo -e "\n${BLUE}[${GREEN}+${BLUE}]${GREEN} Tor User: ${P}$TOR_USER${NC}"
 
    elif id tor >/dev/null 2>&1; then
-       export TOR_USER="tor"
-       echo -e "\n${BLUE}[${NC}+${BLUE}]${NC} Tor User: ${P}$TOR_USER${NC}"
+       export TOR_USER="tor"                                echo -e "\n${BLUE}[${GREEN}+${BLUE}]${GREEN} Tor User: ${P}$TOR_USER${NC}"
 
    elif id toranon >/dev/null 2>&1; then
        export TOR_USER="toranon"
-       echo -e "\n${BLUE}[${NC}+${BLUE}]${NC} Tor User: ${P}$TOR_USER${NC}"
-
-   elif echo $TOR_USER >/dev/null 2>&1; then
-       echo -e "\n${BLUE}[${NC}+${BLUE}]${NC} Tor User: ${P}$TOR_USER${NC}"
-
-   else
-        echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not detect a Tor User${NC}, ${ORANGE}The fix${NC}: ${BLUE}create one manually${NC}"
-        exit 1
-   fi
-	
+       echo -e "\n${BLUE}[${GREEN}+${BLUE}]${GREEN} Tor User: ${P}$TOR_USER${NC}"
+                                                        else
+        echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not detect a Tor User${NC}"
+        exit 1                                          fi                                                
    chown -R $TOR_USER:$TOR_USER /etc/tor/torrc >/dev/null 2>&1
    chown -R $TOR_USER:$TOR_USER /var/lib/tor >/dev/null 2>&1
    chmod 700 /var/lib/tor >/dev/null 2>&1
-   chattr +i /etc/tor/torrc >/dev/null 2>&1
-
-   start
-}
-
-daemon(){
-
-   export DPATH=/usr/bin/archdaemon
-   
-   if ! command -v archdaemon >/dev/null 2>&1; then
-	   echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Daemon not found, ${ORANGE}(${BLUE}It should be part of your PATH${P}(${LB}$PATH${P})${ORANGE})${NC}"
-	 exit 1
-   fi
-
+   chattr +i /etc/tor/torrc >/dev/null 2>&1          
+   sleep 1                                           
+   start                                             }
+                                                     daemon(){                                            
+   export DPATH=/usr/bin/archdaemon                  
+   if ! command -v archdaemon >/dev/null 2>&1; then             echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Daemon not found, ${ORANGE}(${BLUE}It should be part of your PATH${P}(${LB}$PATH${P})${ORANGE})${NC}"                                                         exit 1
+   fi                                                
    if ! pgrep -a archdaemon >/dev/null 2>&1; then
-	archdaemon >/dev/null 2>&1 && echo -e "\n${ORANGE}[${BLUE}+${ORANGE}]${GREEN} Daemon Launched !${NC}\n${ORANGE}[${BLUE}*${ORANGE}]${LB} Note: to stop it just type: ${RED}sudo pkill -9 archdaemon${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not launch daemon script${NC}"
-	exit 0
+        archdaemon >/dev/null 2>&1 && echo -e "\n${ORANGE}[${BLUE}+${ORANGE}]${GREEN} Daemon Launched !${NC}\n${ORANGE}[${BLUE}*${ORANGE}]${LB} Note: to stop it just type: ${RED}sudo pkill -9 archdaemon${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not launch daemon script${NC}"
+        exit 0
    else
-	echo -e "\n${ORANGE}[${BLUE}*${ORANGE}]${GREEN} ArchDaemon is Running, ${LB}your system ensures no leak${NC}"
-	echo -e "\n${ORANGE}[${BLUE}+${ORANGE}]${LB} PID: ${ORANGE}" && pgrep -a archdaemon && echo -e "${NC}"
-	echo -e "${ORANGE}[${BLUE}*${ORANGE}]${YELLOW} Note: ${LB}to stop it just type: ${RED}sudo pkill -9 archdaemon${NC}"
-	exit 0
-   fi
-}
-
-function stop(){
-
-if check_tor >/dev/null 2>&1; then
-
-   pkill -9 tor >/dev/null 2>&1
-   pkill -9 NetworkManager >/dev/null 2>&1
-
-   chattr -i /etc/resolv.conf >/dev/null 2>&1
-   rm /etc/resolv.conf >/dev/null 2>&1
-   touch /etc/resolv.conf >/dev/null 2>&1
-   
+        echo -e "\n${ORANGE}[${BLUE}*${ORANGE}]${GREEN} ArchDaemon is Running, ${LB}your system ensures no leak${NC}"
+        echo -e "\n${ORANGE}[${BLUE}+${ORANGE}]${LB} PID: ${ORANGE}" && pgrep -a archdaemon && echo -e "${NC}"                                                         echo -e "${ORANGE}[${BLUE}*${ORANGE}]${YELLOW} Note: ${LB}to stop it just type: ${RED}sudo pkill -9 archdaemon${NC}"
+        exit 0                                          fi
+}                                                    
+function stop(){                                     
+if curl --socks5-hostname 127.0.0.1:$SOCKS ifconfig.co >/dev/null 2>&1; then
+                                                        pkill -9 tor >/dev/null 2>&1
+   pkill -9 NetworkManager >/dev/null 2>&1           
+   chattr -i /etc/resolv.conf >/dev/null 2>&1           rm /etc/resolv.conf >/dev/null 2>&1
+   touch /etc/resolv.conf >/dev/null 2>&1            
    echo nameserver 9.9.9.9 | sudo tee /etc/resolv.conf >/dev/null 2>&1
-
-   chattr +i /etc/resolv.conf >/dev/null 2>&1
+                                                        chattr +i /etc/resolv.conf >/dev/null 2>&1
 
    while ! pgrep -a NetworkManager >/dev/null 2>&1; do
-        NetworkManager >/dev/null 2>&1
-        sleep 4
-   done
-
-   sysctl -w net.ipv6.conf.all.disable_ipv6=0 >/dev/null 2>&1
+        NetworkManager >/dev/null 2>&1 && break || continue
+done
+                                                        sysctl -w net.ipv6.conf.all.disable_ipv6=0 >/dev/null 2>&1
    sysctl -w net.ipv4.icmp_echo_ignore_all=0 >/dev/null 2>&1
    sysctl -w net.ipv6.icmp.echo_ignore_all=0 >/dev/null 2>&1
    sysctl -w net.ipv6.conf.lo.disable_ipv6=0 >/dev/null 2>&1
@@ -443,16 +408,16 @@ if check_tor >/dev/null 2>&1; then
 
    sudo nft flush ruleset >/dev/null 2>&1
 
-if ! check_tor >/dev/null 2>&1; then
-   echo -e "\n${RED}[${NC}+${RED}]${NC} ArchNoN has been ${RED}stopped.${NC}"
+if ! curl --socks5-hostname 127.0.0.1:$SOCKS ifconfig.co >/dev/null 2>&1; then
+   echo -e "\n${RED}[${NC}+${RED}]${NC} Archnon has been ${RED}stopped.${NC}"
    exit 0
 else
-   echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}could not stop ArchNoN${NC}"
+   echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}could not stop Archnon${NC}"
    exit 1
 fi
 
 else
-   echo -e "\n${RED}[${NC}-${RED}]${NC} Invalid Argument: ${RED}ArchNoN is not running${NC}"
+   echo -e "\n${RED}[${NC}-${RED}]${NC} Invalid Argument: ${RED}Archnon is not running${NC}"
    exit 1
 fi
 
@@ -469,21 +434,21 @@ start)
 mode=1
 
 if [ $EUID -ne 0 ]; then
-	echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}user is not root${NC}"
-	exit 1
+        echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}user is not root${NC}"
+        exit 1
 fi
 
 torrc
 
-if ! check_tor >/dev/null 2>&1; then
-    echo -e "\n${ORANGE}[${NC}*${ORANGE}]${NC} Starting ${BLUE}ArchNoN's ${P}Anonymous Session${NC}"
+if ! curl --socks5-hostname 127.0.0.1:$SOCKS ifconfig.co >/dev/null 2>&1; then
+    echo -e "\n${ORANGE}[${NC}*${ORANGE}]${NC} Starting ${BLUE}Archnon's ${P}Anonymous Session${NC}"
     config
     exit 0
 
     shift
     break
 else
-    echo -e "\n${RED}[${NC}-${RED}]${NC} Invalid Argument: ${ORANGE}ArchNoN is already Running${NC}"
+    echo -e "\n${RED}[${NC}-${RED}]${NC} Invalid Argument: ${ORANGE}Archnon is already Running${NC}"
     exit 0
 
     shift
@@ -501,21 +466,17 @@ stop)
 mode=2
 
 if [ $EUID -ne 0 ]; then
-	echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}user is not root${NC}"
-	exit 1
-fi
-
+        echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}user is not root${NC}"
+        exit 1
+fi                                                   
 if pgrep -a archdaemon >/dev/null 2>&1; then
-    echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${ORANGE}Archdaemon is running${NC}, ${RED}kill it as root before trying to stop${NC}"
-    echo -e "\n${RED}[${NC}-${RED}]${YELLOW} Just run: ${P}sudo pkill -9 archdaemon && archnon stop${NC}"
+    echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${ORANGE}Archdaemon is running${NC}, ${RED}kill it as root before trying to stop${NC}"                         echo -e "\n${RED}[${NC}-${RED}]${YELLOW} Just run: ${P}sudo pkill -9 archdaemon && archnon stop${NC}"
     exit 1
-fi
-
+fi                                                   
 stop
 
 shift
-
-break
+                                                     break
 
 ;;
 
@@ -535,17 +496,16 @@ changeid)
 
 mode=4
 
-if check_tor >/dev/null 2>&1; then
-   
-   echo -e "\n${BLUE}[${ORANGE}*${BLUE}]${ORANGE} Requesting a ${P}NEWNYM${NC}..."   
+if curl --socks5-hostname 127.0.0.1:$SOCKS ifconfig.co >/dev/null 2>&1; then
 
-   echo -e "AUTHENTICATE \"\"\nSIGNAL NEWNYM\nQUIT" | nc 127.0.0.1 $CONTROL >/dev/null 2>&1 && echo -e "\n${ORANGE}[${BLUE}+${ORANGE}]${BLUE} You have a new id from Tor${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} Dont be fast, wait at least ${RED}5 secs${NC} before typing ${ORANGE}'changeid'${NC}"
-   
+   echo -e "AUTHENTICATE \"\"\nSIGNAL NEWNYM\nQUIT" | nc 127.0.0.1 $CONTROL >/dev/null 2>&1 && echo -e "\n${BLUE}[${GREEN}+${BLUE}]${P} You got a new id from Tor${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} Dont be fast, wait at least ${RED}5 secs${NC} before typing ${ORANGE}'changeid'${NC}"
    myip
 
 else
-   echo -e "\n${RED}[${NC}-${RED}]${NC} Invalid Argument: ${RED}ArchNoN is not running${NC}"
+
+   echo -e "\n${RED}[${NC}-${RED}]${NC} Invalid Argument: ${RED}Archnon is not running${NC}"
    exit 1
+
 fi
 
 shift
@@ -568,35 +528,35 @@ torrc
 if [ -f /etc/systemd/system/archnon.service ] && command -v systemctl >/dev/null 2>&1; then
 
     if systemctl is-enabled archnon >/dev/null 2>&1; then
-       echo -e "\n${P}[${NC}*${P}]${NC} ArchNoN is enabled${NC}"
+       echo -e "\n${P}[${NC}*${P}]${NC} Archnon is enabled${NC}"
     else
-        systemctl enable archnon >/dev/null 2>&1 && echo -e "\n${ORANGE}[${NC}+${ORANGE}]${NC} Now ArchNoN is enabled${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not enable ArchNoN${NC}"
+        systemctl enable archnon >/dev/null 2>&1 && echo -e "\n${ORANGE}[${NC}+${ORANGE}]${NC} Now Archnon is enabled${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not enable Archnon${NC}"
     fi
 fi
 
 if [ -f /etc/sv/archnon/run ] && command -v runit >/dev/null 2>&1; then
 
-	if [ -d /run/runit/service ]; then
-	    RSDIR=/run/runit/service
-	elif [ -d /etc/service ]; then
-	      RSDIR=/etc/service
-	elif [ -d /var/run/service ]; then
-	      RSDIR=/var/run/service
-	fi
+        if [ -d /run/runit/service ]; then
+            RSDIR=/run/runit/service
+        elif [ -d /etc/service ]; then
+              RSDIR=/etc/service
+        elif [ -d /var/run/service ]; then
+              RSDIR=/var/run/service
+        fi
 
       if ls -l $RSDIR/archnon/ >/dev/null 2>&1; then
-            echo -e "\n${P}[${NC}*${P}]${NC} ArchNoN is enabled${NC}"
+            echo -e "\n${P}[${NC}*${P}]${NC} Archnon is enabled${NC}"
       else
-           ln -s /etc/sv/archnon $RSDIR >/dev/null 2>&1 && echo -e "\n${ORANGE}[${NC}+${ORANGE}]${NC} Now ArchNoN is enabled${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not enable ArchNoN${NC}"
+           ln -s /etc/sv/archnon $RSDIR >/dev/null 2>&1 && echo -e "\n${ORANGE}[${NC}+${ORANGE}]${NC} Now Archnon is enabled${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not enable Archnon${NC}"
       fi
 fi
 
 if [ -f /etc/init.d/archnon ] && command -v rc-update >/dev/null 2>&1; then
 
       if sudo rc-update | grep -iE "archnon" >/dev/null 2>&1; then
-           echo -e "\n${P}[${NC}*${P}]${GREEN} ArchNoN is enabled${NC}"
+           echo -e "\n${P}[${NC}*${P}]${GREEN} Archnon is enabled${NC}"
       else
-           sudo rc-update add archnon default >/dev/null 2>&1 && echo -e "\n${ORANGE}[${NC}+${ORANGE}]${NC} Now ArchNoN is enable${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not enable ArchNoN${NC}"
+           sudo rc-update add archnon default >/dev/null 2>&1 && echo -e "\n${ORANGE}[${NC}+${ORANGE}]${NC} Now Archnon is enable${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not enable Archnon${NC}"
       fi
 fi
 
@@ -617,11 +577,11 @@ fi
 if [ -f /etc/systemd/system/archnon.service ] && command -v systemctl >/dev/null 2>&1; then
 
     if ! systemctl is-enabled archnon >/dev/null 2>&1; then
-        echo -e "\n${RED}[${NC}+${RED}]${NC} ArchNoN is disabled${NC}"
+        echo -e "\n${RED}[${NC}+${RED}]${NC} Archnon is disabled${NC}"
         exit 0
     else
 
-    systemctl disable archnon >/dev/null 2>&1 && echo -e "\n${ORANGE}[${NC}*${ORANGE}]${NC} ArchNoN has been disable${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not disable ArchNoN${NC}"
+    systemctl disable archnon >/dev/null 2>&1 && echo -e "\n${ORANGE}[${NC}*${ORANGE}]${NC} Archnon has been disable${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not disable Archnon${NC}"
     exit 0
     fi
 fi
@@ -629,21 +589,21 @@ fi
 if [ -f /etc/sv/archnon/run ] && command -v runit  >/dev/null 2>&1; then
 
       if [ -d /run/runit/service ]; then
-	  RSDIR=/run/runit/service
+          RSDIR=/run/runit/service
 
       elif [ -d /etc/service ]; then
-	      RSDIR=/etc/service
-	
+              RSDIR=/etc/service
+
       elif [ -d /var/run/service ]; then
-	      RSDIR=/var/run/service
+              RSDIR=/var/run/service
       fi
 
       if ! ls -l $RSDIR/archnon/ >/dev/null 2>&1; then
-           echo -e "\n${P}[${NC}*${P}]${NC} ArchNoN is already disabled${NC}"
+           echo -e "\n${P}[${NC}*${P}]${NC} Archnon is already disabled${NC}"
            exit 0
       else
 
-      rm -rf $RSDIR/archnon >/dev/null 2>&1 && echo -e "\n${ORANGE}[${NC}*${ORANGE}]${NC} ArchNoN has been disable${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not disable ArchNoN${NC}"
+      rm -rf $RSDIR/archnon >/dev/null 2>&1 && echo -e "\n${ORANGE}[${NC}*${ORANGE}]${NC} Archnon has been disable${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not disable Archnon${NC}"
       exit 0
       fi
 fi
@@ -651,11 +611,10 @@ fi
 if [ -f /etc/init.d/archnon ] && command -v rc-service  >/dev/null 2>&1; then
 
       if ! rc-update | grep -iE "archnon" >/dev/null 2>&1; then
-           echo -e "\n${P}[${NC}*${P}]${NC} ArchNoN is already disabled${NC}"
+           echo -e "\n${P}[${NC}*${P}]${NC} Archnon is already disabled${NC}"
            exit 0
-      else
-
-      rc-update del archnon default >/dev/null 2>&1 && echo -e "\n${ORANGE}[${NC}*${ORANGE}]${NC} ArchNoN has been disable${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not disable ArchNoN${NC}"
+      else                                           
+      rc-update del archnon default >/dev/null 2>&1 && echo -e "\n${ORANGE}[${NC}*${ORANGE}]${NC} Archnon has been disable${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not disable Archnon${NC}"
       exit 0
       fi
 fi
@@ -675,7 +634,7 @@ fi
 
 torrc
 
-echo -e "\n${ORANGE}[${NC}*${ORANGE}]${ORANGE} Restarting ${BLUE}ArchNoN's ${P}Anonymous Session${NC}"
+echo -e "\n${ORANGE}[${NC}*${ORANGE}]${ORANGE} Restarting ${BLUE}Archnon's ${P}Anonymous Session${NC}"
 
 pkill -9 tor >/dev/null 2>&1
 pkill -9 NetworkManager >/dev/null 2>&1
@@ -700,14 +659,11 @@ break
 
 --help|-help|help)
 mode=9
+                                                     help
 
-help
+shift                                                break
 
-shift
-break
-
-;;
-
+;;                                                   
 --*|-*|*)
 mode=10
 
