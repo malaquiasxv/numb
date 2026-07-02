@@ -18,20 +18,24 @@ LB="\e[36m"
 
 NC="\e[0m"
 
-if ! command -v figlet >/dev/null 2>&1; then
+# Dependencies && pkg managers
+
+pkgs=(e2fsprogs figlet)
+
+if ! (command -v figlet >/dev/null 2>&1 && command -v chattr >/dev/null 2>&1); then
         if [[ $(command -v apt) ]]; then
-                if ! apt install -y figlet; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}figlet${NC}"
+                if ! apt install -y ${pkgs[@]}; then
+                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}${pkgs[@]}${NC}"
                 exit 1
                 fi
         elif [[ $(command -v pacman) ]]; then
-                if ! pacman -Sy --noconfirm --needed --overwrite "*" figlet; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}figlet${NC}"
+                if ! pacman -Sy --noconfirm --needed --overwrite "*" ${pkgs[@]}; then
+                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}${pkgs[@]}${NC}"
                 exit 1
                 fi
         elif [[ $(command -v dnf) ]]; then
-                if ! dnf install -y --allowerasing figlet; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}figlet${NC}"
+                if ! dnf install -y --allowerasing ${pkgs[@]}; then
+                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}${pkgs[@]}${NC}"
                 exit 1
                 fi
         elif [[ $(command -v yum) ]]; then
@@ -40,27 +44,27 @@ if ! command -v figlet >/dev/null 2>&1; then
                 exit 1
                 fi
         elif [[ $(command -v xbps-install) ]]; then
-                if ! xbps-install -Sy -f -y "*" figlet; then
+                if ! xbps-install -Sy -f -y "*" ${pkgs[@]}; then
                 echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}figlet${NC}"
                 exit 1
                 fi
         elif [[ $(command -v zypper) ]]; then
-                if ! zypper install figlet; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}figlet${NC}"
+                if ! zypper install ${pkgs[@]}; then
+                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}${pkgs[@]}${NC}"
                 exit 1
                 fi
         elif [[ $(command -v apk) ]]; then
                 if ! apk add --no-cache figlet; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}figlet${NC}"
+                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}${pkgs[@]}${NC}"
                 exit 1
                 fi
         elif [[ $(command -v emerge) ]]; then
-                if ! emerge -v --oneshot --keep-going figlet; then
-                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}figlet${NC}"
+                if ! emerge -v --oneshot --keep-going ${pkgs[@]}; then
+                echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not install missing binary: ${ORANGE}${pkgs[@]}${NC}"
                 exit 1
                 fi
         else
-                echo -e "\n${RED}[${NC}-${RED}]${NC} Not common: ${RED}Unsuported pkg manager, please install: ${ORANGE}'figlet'${NC}"
+                echo -e "\n${RED}[${NC}-${RED}]${NC} Not common: ${RED}Unsuported pkg manager, please install: ${ORANGE}'${pkgs[@]}'${NC}"
                 exit 1
         fi
 fi
@@ -68,9 +72,9 @@ fi
 # Banner
 
 echo -e "${RED}" && figlet ArchConfig
-echo -n -e "${YELLOW}v1.0.0.2${NC}"
+echo -n -e "${YELLOW}v1.0.0.2 ${LB}--> ${RED}Archnon's Torrc Custom Manager${NC}"
 echo -e "\n"
-echo -e "\n${BLUE}[${LB}*${BLUE}] ${YELLOW}Developed By: ${ORANGE}newmasterone27@gmail.com${NC}"
+echo -e "\n${BLUE}[${GREEN}*${BLUE}] ${GREEN}Developed By: ${ORANGE}newmasterone27@gmail.com${NC}"
 
 # Tor Ports
 
@@ -83,12 +87,12 @@ HTTP=8118 # .onion link redirection
 # Usage Warn
 
 usage(){
-echo -e "\n${ORANGE}[${BLUE}!${ORANGE}]${NC} usage: ${P}archconfig ${NC}<${GREEN}action${NC}>${NC}"
-echo -e "\n${BLUE}[${ORANGE}1${BLUE}]${LB} reset: ${ORANGE}Load ArchNoN's default Torrc template${P}(${BLUE}Tor configuration file${P})${NC}"
-echo -e "\n${BLUE}[${ORANGE}2${BLUE}]${LB} show: ${ORANGE}Show Current configuration files as: ${RED}(${YELLOW}/etc/resolv.conf, /etc/tor/torrc ${RED})${NC}"
-echo -e "\n${BLUE}[${ORANGE}3${BLUE}]${LB} firewall: ${ORANGE}Show ${RED}Firewall rules file: ${GREEN}/etc/archnon_rules.nft ${ORANGE}template and current system applied chains${NC}"
+echo -e "\n${RED}[${YELLOW}*${RED}]${GREEN} usage: ${P}archconfig ${NC}<${GREEN}action${NC}>${NC}"
+echo -e "\n${BLUE}[${ORANGE}1${BLUE}]${LB} reset: ${ORANGE}Remplace Torrc with Archnon's default${NC}"
+echo -e "\n${BLUE}[${ORANGE}2${BLUE}]${LB} show: ${ORANGE}Show config files${NC}"
+echo -e "\n${BLUE}[${ORANGE}3${BLUE}]${LB} firewall: ${ORANGE}Show ${RED}Firewall rules.${NC}"
 echo -e "\n${BLUE}[${ORANGE}4${BLUE}]${LB} load: ${ORANGE}Load ${P}custom Torrc${NC}"
-echo -e "\n${BLUE}[${ORANGE}5${BLUE}]${LB} bridges: ${ORANGE}Load ${P}custom Torrc ${BLUE}that uses Bridges protocol${NC}"
+echo -e "\n${BLUE}[${ORANGE}5${BLUE}]${LB} bridges: ${ORANGE}Load ${P}custom Bridges based Torrc${NC}"
 }
 
 # modes "$1"
@@ -100,17 +104,17 @@ while [ $# -gt 0 ]; do
        mode=10
 
        if [ $EUID -ne 0 ]; then
-	   echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}user is not root${NC}"
-	   exit 1
+           echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}user is not root${NC}"
+           exit 1
        fi
-        
+
     chattr -i /etc/tor/torrc >/dev/null 2>&1
 
     rm /etc/tor/torrc >/dev/null 2>&1
-   	touch /etc/tor/torrc >/dev/null 2>&1
+        touch /etc/tor/torrc >/dev/null 2>&1
 
 cat << EOT > /etc/tor/torrc
-# <--- Generated by ArchNoN ---> #
+# <--- Generated by Archnon ---> #
 # File locked by chattr +i, unlock: sudo chattr -i /etc/tor/torrc
 CookieAuthentication 0
 VirtualAddrNetworkIPv4 10.192.0.0/10
@@ -130,15 +134,15 @@ ClientPreferIPv6ORPORT 0
 ClientRejectInternalAddresses 1
 AvoidDiskWrites 1
 EnforceDistinctSubnets 1
-HardwareAccel 1	
+HardwareAccel 1
 EOT
-	chattr +i /etc/tor/torrc
+        chattr +i /etc/tor/torrc
 
-	echo -e "\n${P}[${NC}+${P}]${NC} File Touched ${RED}(${ORANGE}/etc/tor/torrc${RED}), ${BLUE}(${GREEN}done${BLUE})${NC}"
-	echo -e "\n${BLUE}[${NC}+${BLUE}]${ORANGE} Restart to apply${NC}"
+        echo -e "\n${P}[${NC}+${P}]${NC} File Touched ${RED}(${ORANGE}/etc/tor/torrc${RED}), ${BLUE}(${GREEN}done${BLUE})${NC}"
+        echo -e "\n${BLUE}[${NC}+${BLUE}]${ORANGE} Restart to apply${NC}"
 
-	shift
-	break
+        shift
+        break
 ;;
 
 load)
@@ -186,22 +190,22 @@ if [ -f /etc/tor/torrc ]; then
     elif id toranon >/dev/null 2>&1; then
          export TOR_USER="toranon"
     else
-	export TOR_USER=$(id 0)
+        export TOR_USER=$(id 0)
     fi
 
     chwon -R $TOR_USER:$TOR_USER /etc/tor/torrc >/dev/null 2>&1
 
     if tor --verify-config >/dev/null 2>&1; then
-	echo -e "\n${ORANGE}[${NC}*${ORANGE}]${GREEN} Valid, ${LB}restart ArchNoN to apply${NC}"
+        echo -e "\n${ORANGE}[${NC}*${ORANGE}]${GREEN} Valid, ${LB}restart Archnon to apply${NC}"
         exit 0
     else
-	echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}INVALID CONFIG${NC}"
-	exit 1
+        echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${RED}INVALID CONFIG${NC}"
+        exit 1
     fi
 else
-	echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${YELLOW}'/etc/tor/torrc'${NC}, ${RED}NO SUCH FILE${NC}"
-	echo -e "\n${ORANGE}[${YELLOW}!${ORANGE}]${RED} Ensure you ran ArchNoN at least one time !${NC}"
-	exit 1
+        echo -e "\n${RED}[${NC}-${RED}]${NC} Bad usage: ${YELLOW}'/etc/tor/torrc'${NC}, ${RED}NO SUCH FILE${NC}"
+        echo -e "\n${ORANGE}[${YELLOW}!${ORANGE}]${RED} Ensure you ran Archnon at least one time !${NC}"
+        exit 1
 fi
 
 shift
@@ -218,8 +222,8 @@ if [ $EUID -ne 0 ]; then
 fi
 
 if ! [ -f /etc/archnon_rules.nft ]; then
-	echo -e "\n${ORANGE}[${YELLOW}!${ORANGE}]${RED} Ensure you ran ArchNoN at least one time !${NC}"
-	exit 1
+        echo -e "\n${ORANGE}[${YELLOW}!${ORANGE}]${RED} Ensure you ran Archnon at least one time !${NC}"
+        exit 1
 fi
 
 if [ -f /etc/archnon_rules.nft ]; then
@@ -242,14 +246,14 @@ show)
 mode=7
 
 if [ -f /etc/tor/torrc ] && [ -f /etc/resolv.conf ]; then
-	echo -e "\n${ORANGE}[${BLUE}!${ORANGE}]${LB} Showing current ${P}Torrc${BLUE}(${YELLOW}/etc/tor/torrc${BLUE})${NC}:"
+        echo -e "\n${ORANGE}[${BLUE}!${ORANGE}]${LB} Showing current ${P}Torrc${BLUE}(${YELLOW}/etc/tor/torrc${BLUE})${NC}:"
         cat /etc/tor/torrc
         echo -e "\n${ORANGE}[${BLUE}*${ORANGE}]${LB} Showing current ${BLUE}DNS${LB} config${RED}(${YELLOW}/etc/resolv.conf${RED})${NC}:"
          cat /etc/resolv.conf
-	 exit 0
+         exit 0
 else
-	echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Not found ${ORANGE}(${YELLOW}/etc/resolv.conf, /etc/tor/torrc${ORANGE})${NC}"
-	exit 1
+        echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Not found ${ORANGE}(${YELLOW}/etc/resolv.conf, /etc/tor/torrc${ORANGE})${NC}"
+        exit 1
 fi
 shift
 break
@@ -273,15 +277,15 @@ rm /etc/tor/torrc >/dev/null 2>&1
 touch /etc/tor/torrc >/dev/null 2>&1
 
 if [[ -z "$file" || ! -f "$file" || -z "$kind" || ! "$bin" || -z "$bin" ]]; then
-    echo -e "\n${ORANGE}[${NC}*${ORANGE}]${YELLOW} Usage: ${P}sudo archconfig bridges ${BLUE}<${NC}file${BLUE}> ${BLUE}<${NC}kind${BLUE}> ${BLUE}<${NC}bin${BLUE}>${NC}"
-    echo -e "\n${ORANGE}[${NC}*${ORANGE}]${P} EXAMPLE: ${BLUE}sudo archconfig bridges ${P}bridges.txt ${GREEN}obfs4 ${RED}/usr/bin/obfs4proxy${NC}"
-    echo -e "\n${BLUE}[${NC}*${BLUE}]${NC} File ${RED}should ONLY contain the bridges in this format: ${NC}<${YELLOW}'bridge'${NC}> ${YELLOW}<${NC}type${YELLOW}> [${NC}IP${YELLOW}]${GREEN}:${YELLOW}[${NC}PORT${YELLOW}] [${NC}fingerprint${YELLOW}] [${NC}Key=value${YELLOW}]${NC}"
+    echo -e "\n${ORANGE}[${NC}*${ORANGE}]${P} usage: ${GREEN}sudo archconfig bridges ${BLUE}<${NC}file${BLUE}> ${BLUE}<${NC}kind${BLUE}> ${BLUE}<${NC}bin${BLUE}>${NC}"
+    echo -e "\n${ORANGE}[${NC}*${ORANGE}]${P} Ex: ${GREEN}sudo archconfig bridges ${LB}bridges.txt ${LB}obfs4 ${LB}/usr/bin/obfs4proxy${NC}"
+    echo -e "\n${BLUE}[${GREEN}*${BLUE}]${GREEN} File ${RED}should ONLY contain the bridges in this format: ${NC}<${YELLOW}'bridge'${NC}> ${YELLOW}<${NC}type${YELLOW}> [${NC}IP${YELLOW}]${GREEN}:${YELLOW}[${NC}PORT${YELLOW}] [${NC}fingerprint${YELLOW}] [${NC}Key=value${YELLOW}]${NC}"
     exit 1
 fi
 
 bridges=$(cat "$file")
 
-echo -e "\n# <--- Generated by ArchNoN ---> #\n# Bridges Configuration #\n# NOT TOUCH, THIS FILE IS CUSTOM LOAD #\n# File locked by chattr +i, unlock: sudo chattr -i /etc/tor/torrc #\nCookieAuthentication 0\nVirtualAddrNetworkIPv4 10.192.0.0/10\nAutomapHostsOnResolve 1\nMaxCircuitDirtiness 10\nAutomapHostsSuffixes .exit,.onion\nTransPort 127.0.0.1:$TRANS IsolateClientAddr IsolateSOCKSAuth IsolateClientProtocol IsolateDestPort IsolateDestAddr\nDNSPort 127.0.0.1:$DNS\nControlPort 127.0.0.1:$CONTROL\nSocksPort 127.0.0.1:$SOCKS IsolateClientAddr IsolateSOCKSAuth IsolateClientProtocol IsolateDestPort IsolateDestAddr\nHTTPTunnelPort 127.0.0.1:$HTTP\nClientTransportPlugin $kind exec $bin\n$bridges\nUseBridges 1\nClientUseIPv6 0\nClientPreferIPv6ORPORT 0\nClientRejectInternalAddresses 1\nHardwareAccel 1\nEnforceDistinctSubnets 1\nAvoidDiskWrites 1\n" | tee /etc/tor/torrc >/dev/null 2>&1
+echo -e "\n# <--- Generated by Archnon ---> #\n# Bridges Configuration #\n# NOT TOUCH, THIS FILE IS CUSTOM LOAD #\n# File locked by chattr +i, unlock: sudo chattr -i /etc/tor/torrc #\nCookieAuthentication 0\nVirtualAddrNetworkIPv4 10.192.0.0/10\nAutomapHostsOnResolve 1\nMaxCircuitDirtiness 10\nAutomapHostsSuffixes .exit,.onion\nTransPort 127.0.0.1:$TRANS IsolateClientAddr IsolateSOCKSAuth IsolateClientProtocol IsolateDestPort IsolateDestAddr\nDNSPort 127.0.0.1:$DNS\nControlPort 127.0.0.1:$CONTROL\nSocksPort 127.0.0.1:$SOCKS IsolateClientAddr IsolateSOCKSAuth IsolateClientProtocol IsolateDestPort IsolateDestAddr\nHTTPTunnelPort 127.0.0.1:$HTTP\nClientTransportPlugin $kind exec $bin\n$bridges\nUseBridges 1\nClientUseIPv6 0\nClientPreferIPv6ORPORT 0\nClientRejectInternalAddresses 1\nHardwareAccel 1\nEnforceDistinctSubnets 1\nAvoidDiskWrites 1\n" | tee /etc/tor/torrc >/dev/null 2>&1
 
 if tor --verify-config >/dev/null 2>&1; then
    echo -e "\n${P}[${NC}*${P}]${NC} File Touched ${BLUE}(${GREEN}done${BLUE})${NC}"
