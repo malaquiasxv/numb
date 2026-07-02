@@ -379,6 +379,8 @@ sleep 1
 
 fi
 
+   echo -e "\n${BLUE}[${GREEN}+${BLUE}]${GREEN} Using custom Torrc !${NC}"
+
    if id debian-tor >/dev/null 2>&1; then
        export TOR_USER="debian-tor"
        echo -e "\n${BLUE}[${GREEN}+${BLUE}]${GREEN} Tor User: ${P}$TOR_USER${NC}"
