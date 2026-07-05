@@ -186,7 +186,6 @@ echo -e "\n${ORANGE}[${NC}4${ORANGE}] ${LB}enable: ${GREEN}Enable ${ORANGE}scrip
 echo -e "\n${ORANGE}[${NC}5${ORANGE}] ${LB}disable: ${RED}Disable ${ORANGE}script on boot"
 echo -e "\n${ORANGE}[${NC}6${ORANGE}] ${LB}myip: ${BLUE}Show ${ORANGE}Your IP${NC}"
 echo -e "\n${ORANGE}[${NC}7${ORANGE}] ${LB}changeid: ${ORANGE}Change ${P}Your Tor IP${NC}"
-echo -e "\n${ORANGE}[${NC}8${ORANGE}] ${LB}daemon: ${ORANGE}Launch Daemon PID${NC}"
 exit 1
 }
 
@@ -336,13 +335,13 @@ sleep 1
 
    sleep 1
 
-   tor --User $TOR_USER --RunAsDaemon 1 --DataDirectory /var/lib/tor -f /etc/tor/torrc >/dev/null 2>&1 && echo -e "\n${BLUE}[${GREEN}+${BLUE}]${GREEN} Tor Launched ${ORANGE}HTTPPort${GREEN}: ${YELLOW}$HTTP ${GREEN}!${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not launch Tor..${NC}"
+   tor --User $TOR_USER --RunAsDaemon 1 --DataDirectory /var/lib/tor -f /etc/tor/torrc >/dev/null 2>&1 && echo -e "\n${BLUE}[${GREEN}+${BLUE}]${P} Tor ${GREEN}Daemon Launched ${ORANGE}HTTPPort${GREEN}: ${YELLOW}$HTTP ${GREEN}!${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not launch Tor..${NC}"
 
    sleep 1
 
    i2pd --daemon >/dev/null 2>&1
 
-   pgrep -a i2pd >/dev/null 2>&1 && echo -e "\n${BLUE}[${GREEN}+${BLUE}]${GREEN} I2P Daemon Started, ${ORANGE}HTTPPort${GREEN}: ${YELLOW}4444 ${GREEN}!${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not start I2P Daemon${NC}"
+   pgrep -a i2pd >/dev/null 2>&1 && echo -e "\n${BLUE}[${GREEN}+${BLUE}]${YELLOW} I2P ${GREEN}Daemon Started, ${ORANGE}HTTPPort${GREEN}: ${YELLOW}4444 ${GREEN}!${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not start I2P Daemon${NC}"
   
    sleep 1
 
@@ -431,25 +430,6 @@ export I2P=$(id -u i2pd)
    start
 }
 
-daemon(){
-
-   export DPATH=/usr/bin/archdaemon
-
-   if ! command -v archdaemon >/dev/null 2>&1; then
-           echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Daemon not found, ${ORANGE}(${BLUE}It should be part of your PATH${P}(${LB}$PATH${P})${ORANGE})${NC}"
-         exit 1
-   fi
-
-   if ! pgrep -a archdaemon >/dev/null 2>&1; then
-        archdaemon >/dev/null 2>&1 && echo -e "\n${ORANGE}[${BLUE}+${ORANGE}]${GREEN} Daemon Launched !${NC}\n${ORANGE}[${BLUE}*${ORANGE}]${LB} Note: to stop it just type: ${RED}sudo pkill -9 archdaemon${NC}" || echo -e "\n${RED}[${NC}-${RED}]${NC} unknown: ${RED}Could not launch daemon script${NC}"
-        exit 0
-   else
-        echo -e "\n${ORANGE}[${BLUE}*${ORANGE}]${GREEN} ArchDaemon is Running, ${LB}your system ensures no leak${NC}"
-        echo -e "\n${ORANGE}[${BLUE}+${ORANGE}]${LB} PID: ${ORANGE}" && pgrep -a archdaemon && echo -e "${NC}"
-        echo -e "${ORANGE}[${BLUE}*${ORANGE}]${YELLOW} Note: ${LB}to stop it just type: ${RED}sudo pkill -9 archdaemon${NC}"
-        exit 0
-   fi
-}
 
 function stop(){
 
@@ -715,17 +695,6 @@ pkill -9 tor >/dev/null 2>&1
 pkill -9 NetworkManager >/dev/null 2>&1
 
 config
-
-shift
-break
-
-;;
-
-daemon)
-mode=8
-
-torrc
-daemon
 
 shift
 break
