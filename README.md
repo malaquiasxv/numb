@@ -12,4 +12,4 @@
 - 4. Extra: Full root access(as i said before, to apply firewall with no issues and full sys DNS).
 
 # [ Clone ] #
-- As root: git clone https://github.com/0xmalaquias/Archnon && cd Archnon && chmod +x * && ./archnon
+- As root: git clone https://github.com/malaquiasxv/Archnon && cd Archnon && chmod +x * && ./archnon
